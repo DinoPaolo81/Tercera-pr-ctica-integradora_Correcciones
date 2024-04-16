@@ -10,29 +10,11 @@ import router from './routes/index.routes.js';
 import passport from 'passport';
 import { engine } from 'express-handlebars';
 import { initializePassport } from './config/passport/passport.js';
-import cors from 'cors';
 import { Server } from "socket.io";
 import errorHandler from './config/middlewares/errorHandler.js';
-
 import { addLogger } from './utils/logger/logger.js';
 
-//CORS
-const whiteList = ["http://localhost:3000"];
-const corsOptions = {
-    origin: (origin, callback) => {
-        if (whiteList.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-    methods: 'GET, POST, PUT, DELETE',
-    optionsSuccessStatus: 200,
-    preflightContinue: false,
-    maxAge: 3600,
-};
+
 
 //Iniciar Server
 const app = express()
@@ -41,7 +23,7 @@ const app = express()
 app.use(cookieParser(process.env.JWT_SECRET))
 app.use(morgan('dev'))
 app.use(express.json())
-app.use(cors(corsOptions))
+//app.use(cors(corsOptions))
 app.use(express.urlencoded({ extended: true }))
 app.use(session({
     secret: 'secret',
